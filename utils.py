@@ -4,12 +4,14 @@ WHITE = 'W'
 EMPTY = ' '
 
 
-def traduction_move(move):
-    col = ord(move[0]) - ord('A')
-    row = int(move[1]) - 1
-    direction = move[3:]
+def traduction_move(move):  
+    parts = move.split()                                                        
+    if len(parts) != 2:
+        return "El movimiento debe contener una posición y una dirección (ej. 'D1 SE')."
+    position, direction = parts
+    col = ord(position[0]) - ord('A')  
+    row = int(position[1]) - 1
     return row, col, direction
-
 
 def get_opponent(player):
     if player == BLACK:
@@ -133,7 +135,6 @@ def make_move(board, move, player):
 
 
 def forms_corners(board, player):
-
     corners = [(0, 0), (0, 3), (3, 0), (3, 3)]
     for corner in corners:
         if board[corner[0]][corner[1]] != player:
@@ -163,3 +164,5 @@ def forms_square(board, player):
             return True
 
     return False
+
+
