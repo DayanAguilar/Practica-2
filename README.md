@@ -14,22 +14,22 @@
 
 3. **Ejecutar pruebas con pytest**:
    ```bash
-   coverage run -m pytest
+   python3 -m coverage run -m pytest
    ```
 
-4. **Ejecutar pruebas con unittest**:
+4. **Ejecutar pruebas con pytest**:
    ```bash
-   coverage run -m unittest
+   python3 -m coverage run -m pytest -v
    ```
 
 5. **Generar reporte de cobertura**:
    ```bash
-   coverage report -m
+    python3 -m coverage report -m
    ```
 
 6. **Generar reporte en formato HTML**:
    ```bash
-   coverage html
+    python3 -m coverage html
    ```
 
 7. **Iniciar un servidor HTTP para ver el reporte HTML**:
