@@ -1,5 +1,5 @@
 import pytest
-from utils import traduction_move, get_opponent, BLACK, WHITE
+from utils import traduction_move, get_opponent, BLACK, WHITE,forms_corners
 
 class TestUtils:
 
@@ -14,3 +14,32 @@ class TestUtils:
         
     def test_get_black_opponent(self):
         assert get_opponent(WHITE) == BLACK
+
+    def test_all_corners_player(self):
+        board = [
+            [BLACK, '', '', BLACK],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            [BLACK, '', '', BLACK]
+        ]
+        assert forms_corners(board, BLACK) == True
+    
+    def test_middle_corner_not_player(self): 
+        board = [
+            [BLACK, '', '', BLACK],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            [BLACK, '', '', WHITE]
+        ]
+        assert forms_corners(board, BLACK) == False
+        
+    def test_first_corner_not_player(self):  
+        board = [
+            [WHITE, '', '', BLACK],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            [BLACK, '', '', BLACK]
+        ]
+        assert forms_corners(board, BLACK) == False
+
+ 
