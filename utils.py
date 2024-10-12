@@ -154,7 +154,6 @@ def forms_square(board, player):
         for j in range(3):
             if check_square(board, player, i, j):
                 return True
-
     diagonal_positions = [
         (0, 0), (0, 2), (1, 0), (1, 2), (2, 0), (2, 2)
     ]

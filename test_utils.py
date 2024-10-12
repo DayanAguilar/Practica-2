@@ -1,5 +1,5 @@
 import pytest
-from utils import traduction_move, get_opponent, BLACK, WHITE,forms_corners
+from utils import traduction_move, get_opponent, BLACK, WHITE,forms_corners,check_square
 
 class TestUtils:
 
@@ -42,4 +42,35 @@ class TestUtils:
         ]
         assert forms_corners(board, BLACK) == False
 
- 
+    def test_square_black_found(self):
+        board = [
+            [BLACK, BLACK, ' ', ' '],
+            [BLACK, BLACK, ' ', ' '],
+            [' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ']
+        ]
+        assert check_square(board, BLACK, 0, 0) == True
+    def test_square_black_found_not_found_corner(self):
+        board = [
+            [BLACK, BLACK, ' ', ' '],
+            [BLACK, ' ', ' ', ' '],
+            [' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ']
+        ]
+        assert check_square(board, BLACK, 0, 0) == False
+    def test_square_black_found_not_bottom(self):
+        board = [
+            [BLACK, BLACK, ' ', ' '],
+            [' ', BLACK, ' ', ' '],
+            [' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ']
+        ]
+        assert check_square(board, BLACK, 0, 0) == False
+    def test_square_black_found_not_side(self):
+        board = [
+            [BLACK, ' ', ' ', ' '],
+            [BLACK, BLACK, ' ', ' '],
+            [' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ']
+        ]
+        assert check_square(board, BLACK, 0, 0) == False
