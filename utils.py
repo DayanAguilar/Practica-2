@@ -158,10 +158,9 @@ def forms_square(board, player):
         (0, 0), (0, 2), (1, 0), (1, 2), (2, 0), (2, 2)
     ]
     for row, col in diagonal_positions:
-        if board[row][col] == player and board[row + 1][col + 1] == player and \
-           board[row][col + 1] == player and board[row + 1][col] == player:
+        if check_square(board,player,row,col):
             return True
-
+        
     return False
 
 
