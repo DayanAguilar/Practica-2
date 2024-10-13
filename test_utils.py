@@ -7,10 +7,12 @@ from utils import (
     forms_corners,
     check_square,
     forms_square,
+    make_move
 )
 
 
 class TestUtils:
+    
     def test_traduction_move_valid(self):
         assert traduction_move("D1 SE") == (0, 3, "SE")
 
@@ -152,4 +154,54 @@ class TestUtils:
         ]
         assert forms_square(board, BLACK) == False
 
-  
+    def test_make_move_invalid_row_negative(self):
+        board = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ]
+        move = ("A0 SE")
+        with pytest.raises(ValueError, match="Invalid move: position out of range"):
+            make_move(board, move, BLACK)
+    def test_make_move_invalid_row_out_of_range(self):
+        board = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ]
+        move = ("A5 SE")
+        with pytest.raises(ValueError, match="Invalid move: position out of range"):
+            make_move(board, move, BLACK)
+    def test_make_move_invalid_column_negative(self):
+        board = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ]
+        move = ("Z5 SE")
+        with pytest.raises(ValueError, match="Invalid move: position out of range"):
+            make_move(board, move, BLACK)
+    def test_make_move_invalid_column_out_of_range(self):
+        board = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ]
+        move = ("E5 SE")
+        with pytest.raises(ValueError, match="Invalid move: position out of range"):
+            make_move(board, move, BLACK)
+            
+    def test_make_move_valid_move(self):
+        board = [
+            [BLACK, "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ]
+        move = ("A1 SE") 
+        assert make_move(board,move,BLACK) == [[BLACK, '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', '']]
+
