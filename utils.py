@@ -172,3 +172,4 @@ def forms_square(board, player):
             return True
 
     return False
+

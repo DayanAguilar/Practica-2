@@ -11,7 +11,8 @@ from utils import (
     move_northwest,
     move_northeast,
     move_southwest,
-    move_southeast
+    move_southeast,
+    move_north
 )
 
 
@@ -340,3 +341,5 @@ class TestUtils:
         board[1][1] = BLACK
         new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
         assert new_board[1][1] == BLACK 
+        
+    
