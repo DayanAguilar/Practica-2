@@ -15,7 +15,8 @@ from utils import (
     move_north,
     move_west,
     move_east,
-    move_south
+    move_south,
+    directions_to_move
 )
 
 
@@ -452,9 +453,7 @@ class TestUtils:
         board = [[None for _ in range(4)] for _ in range(4)]
         previous_position = [3, 1]
         row_copy, col_copy = 3, 1
-
         new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
-
         assert board == new_board
 
     def test_move_south_never_enters_for(self):
@@ -463,3 +462,79 @@ class TestUtils:
         row_copy, col_copy = 3, 1
         new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
         assert board == new_board
+    
+    def test_invalid_direction(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = directions_to_move("INVALID", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board == board
+        
+    def test_move_southeast(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [2, 2]
+        row_copy, col_copy = 2, 2
+        new_board = directions_to_move("SE", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[3][3] == BLACK 
+        
+    def test_move_south(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = directions_to_move("S", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[3][1] == BLACK   
+        
+    def test_move_southwest(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [2, 2]
+        row_copy, col_copy = 2, 2
+        new_board = directions_to_move("SW", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[3][1] == BLACK
+        
+    def test_move_east(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = directions_to_move("E", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == BLACK
+    
+    def test_move_west(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 2]
+        row_copy, col_copy = 1, 2
+        new_board = directions_to_move("W", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][0] == BLACK
+    
+    def test_move_northeast(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [2, 2]
+        row_copy, col_copy = 2, 2
+        new_board = directions_to_move("NE", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == BLACK
+    
+    def test_move_north(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [3, 1]
+        row_copy, col_copy = 3, 1
+        new_board = directions_to_move("N", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[0][1] == BLACK
+    
+    def test_move_northwest(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [2, 2]
+        row_copy, col_copy = 2, 2
+        new_board = directions_to_move("NW", board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][1] == None
+
+ 
+
+ 
+
+
+
+   
+
+
+
+
+
