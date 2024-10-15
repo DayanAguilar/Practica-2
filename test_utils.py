@@ -308,4 +308,35 @@ class TestUtils:
         new_board = move_southwest(board, 1, 1, [1, 1], BLACK)
         assert new_board[1][1] == None
         
-  
+    def test_move_southeast_to_empty_cell(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][1] = BLACK
+        new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
+        assert new_board[1][1] == None
+
+    def test_move_southeast_until_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][1] = BLACK
+        board[2][2] = WHITE
+        new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
+        assert new_board[2][2] == WHITE  
+
+    def test_multiple_moves_southeast_to_empty_cells(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][1] = BLACK
+        new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
+        new_board = move_southeast(new_board, 2, 2, [2, 2], BLACK)  
+        assert new_board[3][3] == BLACK  
+
+    def test_move_southeast_to_edge_of_board(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[2][2] = BLACK
+        new_board = move_southeast(board, 2, 2, [2, 2], BLACK)
+        assert new_board[2][2] == None 
+
+    def test_no_move_southeast_possible(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[2][2] = WHITE
+        board[1][1] = BLACK
+        new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
+        assert new_board[1][1] == BLACK 
