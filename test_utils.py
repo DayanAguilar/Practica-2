@@ -8,7 +8,8 @@ from utils import (
     check_square,
     forms_square,
     make_move,
-    move_northwest
+    move_northwest,
+    move_northeast
 )
 
 
@@ -238,3 +239,37 @@ class TestUtils:
         board[2][2] = BLACK
         new_board = move_northwest(board, 2, 2, [2, 2], BLACK)
         assert new_board[2][2] == BLACK  
+        
+    def test_move_northeast_to_empty_cell(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[2][2] = BLACK
+        new_board = move_northeast(board, 2, 2, [2, 2], BLACK)
+        assert new_board[1][3] == BLACK
+
+    def test_move_northeast_until_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[2][2] = BLACK
+        board[1][3] = WHITE
+        new_board = move_northeast(board, 2, 2, [2, 2], BLACK)
+        assert new_board[1][3] == WHITE  
+
+    def test_multiple_moves_northeast_to_empty_cells(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[3][2] = BLACK
+        new_board = move_northeast(board, 3, 2, [3, 2], BLACK)
+        new_board = move_northeast(new_board, 2, 3, [2, 3], BLACK)   
+        assert new_board[3][2] == None  
+        
+    def test_move_northeast_to_edge_of_board(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[0][2] = BLACK
+        new_board = move_northeast(board, 0, 2, [0, 2], BLACK)
+        assert new_board[0][2] == BLACK  
+
+    def test_no_move_northeast_possible(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][3] = WHITE
+        board[2][2] = BLACK
+        new_board = move_northeast(board, 2, 2, [2, 2], BLACK)
+        assert new_board[2][2] == BLACK 
+       
