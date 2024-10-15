@@ -212,12 +212,6 @@ class TestUtils:
         new_board = move_northwest(board, 2, 2, [2, 2], BLACK)
         assert new_board[1][1] == None
 
-    def test_move_northwest_to_edge_of_board(self):
-        board = [[None for _ in range(4)] for _ in range(4)]
-        board[0][0] = BLACK
-        new_board = move_northwest(board, 0, 0, [0, 0], BLACK)
-        assert new_board[0][0] == BLACK  
-
     def test_move_northwest_until_obstacle(self):
         board = [[None for _ in range(4)] for _ in range(4)]
         board[2][2] = BLACK
@@ -230,7 +224,13 @@ class TestUtils:
         board[3][3] = BLACK
         new_board = move_northwest(board, 3, 3, [3, 3], BLACK)
         new_board = move_northwest(new_board, 2, 2, [2, 2], BLACK)  
-        assert new_board[1][1] == "B"  
+        assert new_board[1][1] == BLACK 
+
+    def test_move_northwest_to_edge_of_board(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[0][0] = BLACK
+        new_board = move_northwest(board, 0, 0, [0, 0], BLACK)
+        assert new_board[0][0] == BLACK  
 
     def test_no_move_northwest_possible(self):
         board = [[None for _ in range(4)] for _ in range(4)]
