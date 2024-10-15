@@ -40,10 +40,11 @@ def terminal_test(board, player):
 
 
 def utility(state):
-    opponent = get_opponent(state[1])
-    if terminal_test(state[0], state[1]):
+    board, player = state
+    opponent = get_opponent(player)
+    if terminal_test(board, player):
         return 100
-    elif terminal_test(state[1], opponent):
+    elif terminal_test(board, opponent):
         return -100
     else:
         return 0
