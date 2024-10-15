@@ -402,4 +402,32 @@ class TestUtils:
         new_board = move_west(board, row_copy, col_copy, previous_position, BLACK)
         assert new_board[1][0] == None  
     
-   
+    def test_move_east_full_travel(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = move_east(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == BLACK
+
+    def test_move_east_with_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][2] = WHITE
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = move_east(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == None
+
+    def test_move_east_never_enters_if(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 3]
+        row_copy, col_copy = 1, 3
+        new_board = move_east(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == None
+    
+
+    def test_move_east_never_enters_for(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 3]
+        row_copy, col_copy = 1, 3
+        new_board = move_east(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][3] == None
