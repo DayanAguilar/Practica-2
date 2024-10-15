@@ -342,4 +342,30 @@ class TestUtils:
         new_board = move_southeast(board, 1, 1, [1, 1], BLACK)
         assert new_board[1][1] == BLACK 
         
+    def test_move_north_full_travel(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [3, 1]  
+        row_copy, col_copy = 3, 1   
+        new_board = move_north(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[0][1] == BLACK
     
+    def test_move_north_with_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][1] = WHITE  
+        previous_position = [3, 1]
+        row_copy, col_copy = 3, 1
+        new_board = move_north(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][1] == WHITE
+        
+    def test_move_north_never_enters_if(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [0, 1]  
+        row_copy, col_copy = 0, 1    
+        new_board = move_north(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[0][1] == None  
+    def test_move_north_never_enters_for(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [0, 1]  
+        row_copy, col_copy = 0, 1   
+        new_board = move_north(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[0][1] == None  
