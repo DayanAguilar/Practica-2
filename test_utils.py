@@ -12,7 +12,9 @@ from utils import (
     move_northeast,
     move_southwest,
     move_southeast,
-    move_north
+    move_north,
+    move_west,
+    move_east
 )
 
 
@@ -368,4 +370,36 @@ class TestUtils:
         previous_position = [0, 1]  
         row_copy, col_copy = 0, 1   
         new_board = move_north(board, row_copy, col_copy, previous_position, BLACK)
-        assert new_board[0][1] == None  
+        assert new_board[0][1] == None
+        
+    def test_move_west_full_travel(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 2]  
+        row_copy, col_copy = 1, 2   
+        new_board = move_west(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][0] == BLACK
+
+    def test_move_west_with_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[1][1] = WHITE
+        previous_position = [1, 2]
+        row_copy, col_copy = 1, 2
+        new_board = move_west(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][1] == WHITE  
+
+
+    def test_move_west_never_enters_if(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 0]  
+        row_copy, col_copy = 1, 0    
+        new_board = move_west(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][0] == None  
+
+    def test_move_west_never_enters_for(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 0]  
+        row_copy, col_copy = 1, 0   
+        new_board = move_west(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[1][0] == None  
+    
+   
