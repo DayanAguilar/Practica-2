@@ -14,7 +14,8 @@ from utils import (
     move_southeast,
     move_north,
     move_west,
-    move_east
+    move_east,
+    move_south
 )
 
 
@@ -431,3 +432,34 @@ class TestUtils:
         row_copy, col_copy = 1, 3
         new_board = move_east(board, row_copy, col_copy, previous_position, BLACK)
         assert new_board[1][3] == None
+
+    def test_move_south_full_travel(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[3][1] == BLACK
+
+    def test_move_south_with_obstacle(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        board[2][1] = WHITE
+        previous_position = [1, 1]
+        row_copy, col_copy = 1, 1
+        new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
+        assert new_board[2][1] == WHITE
+
+    def test_move_south_never_enters_if(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [3, 1]
+        row_copy, col_copy = 3, 1
+
+        new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
+
+        assert board == new_board
+
+    def test_move_south_never_enters_for(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        previous_position = [3, 1]
+        row_copy, col_copy = 3, 1
+        new_board = move_south(board, row_copy, col_copy, previous_position, BLACK)
+        assert board == new_board
