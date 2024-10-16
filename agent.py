@@ -102,29 +102,6 @@ def get_all_moves(board, player):
     return moves
 
 
-
-def first_evaluation_function(state):
-    board = state[0]
-
-    weights = [[2, 2, 2, 2], [2, 1, 1, 2], [2, 1, 1, 2], [2, 2, 2, 2]]
-
-    player1_score = 0
-    player2_score = 0
-
-    for i in range(4):
-        for j in range(4):
-            if board[i][j] == BLACK:
-                player1_score += weights[i][j]
-            elif board[i][j] == WHITE:
-                player2_score += weights[i][j]
-
-    player1_moves = len(get_all_moves(board, BLACK))
-    player2_moves = len(get_all_moves(board, WHITE))
-
-    value = player1_score - player2_score + (player1_moves - player2_moves) * 0.1
-    return value
-
-
 def alpha_beta_prunning_depth(
     state, depth, alpha, beta, maximizing_player, available_moves, counter
 ):
