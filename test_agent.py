@@ -1,5 +1,5 @@
 from agent import is_winning_or_creates_special_case
-from agent import terminal_test
+from agent import terminal_test, find_adjacencies
 
 class TestAgent:
 
@@ -163,7 +163,7 @@ class TestAgent:
         player = 'B'
         assert terminal_test(temp_board, player) == False
 
-    def test_terminal_test_empty_board(self):
+    def test_terminal_test_none_board(self):
         temp_board = [
             ['', '', '', ''],
             ['', '', '', ''],
@@ -194,6 +194,18 @@ class TestAgent:
         assert terminal_test(temp_board, player) == False
 
     
+    def test_find_adjacencies(self):
+        board = [
+        ["B", "B", "W", " "],
+        ["W", " ", "B", "B"],
+        [" ", "W", " ", " "],
+        ["B", " ", "W", "W"],
+        ]
+        
+        expected_b_adj = 13
+        expected_w_adj = -13
 
-
-   
+        result = find_adjacencies(board)
+        
+        assert result == (expected_b_adj, expected_w_adj)
+        
