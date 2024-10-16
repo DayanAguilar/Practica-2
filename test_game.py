@@ -34,3 +34,16 @@ class TestGame:
             '4  W |   |   | B\n'
         )
         assert captured.out == expected_output
+
+    def test_is_out_of_bounds(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        test_cases = [
+            (-1, 0, True),
+            (0, -1, True),
+            (4, 0, True),
+            (0, 4, True),
+            (2, 2, False),
+            (0, 0, False),
+            (3, 3, False)
+        ]
+        assert all(is_out_of_bounds(row, col, board) == expected for row, col, expected in test_cases)
