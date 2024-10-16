@@ -1,5 +1,6 @@
 from agent import is_winning_or_creates_special_case
 from agent import terminal_test, find_adjacencies
+from agent import second_evaluation_function
 
 class TestAgent:
 
@@ -208,4 +209,25 @@ class TestAgent:
         result = find_adjacencies(board)
         
         assert result == (expected_b_adj, expected_w_adj)
+
+    def test_second_evaluation_function(self):
+        board = [
+            ["B", "W", "W", " "],
+            [" ", "W", "B", " "],
+            ["B", " ", " "," "],
+            [" ", "W", " ", "B"]
+        ]
+        
+        weights = [[3, 2, 2, 3], [2, 1, 1, 2], [2, 1, 1, 2], [3, 2, 2, 3]]
+        
+        player1_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "B")
+        player2_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "W")
+        
+        adj1, adj2 = 4, -4
+
+        expected_value = (player1_score - adj1) - (player2_score - adj2)
+
+        result = second_evaluation_function((board, "B"))
+
+        assert result == -25, f"Result: {result}, Expected: {expected_value}"
         
