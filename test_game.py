@@ -2,11 +2,11 @@ from game import create_board
 from game import display_board
 from game import is_out_of_bounds
 from game import get_new_position
+from game import get_computer_move, create_board, get_available_moves
 class TestGame:
     def test_create_board(self):
         board = create_board()
 
-        # Tablero esperado
         expected_board = [
             ['B', None, None, 'W'],
             [None, 'B', 'W', None],
@@ -62,3 +62,11 @@ class TestGame:
         ]
         assert all(get_new_position(direction, row, col) == (expected_row, expected_col)
                    for direction, row, col, expected_row, expected_col in test_cases)
+
+    def test_get_computer_move(self):
+        board = create_board()
+        player = 'B'
+        state = (board, player)
+        computer_move = get_computer_move(state)
+        valid_moves = get_available_moves(board, player)
+        assert computer_move in valid_moves
