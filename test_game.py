@@ -1,6 +1,7 @@
 from game import create_board
 from game import display_board
 from game import is_out_of_bounds
+from game import get_new_position
 class TestGame:
     def test_create_board(self):
         board = create_board()
@@ -47,3 +48,17 @@ class TestGame:
             (3, 3, False)
         ]
         assert all(is_out_of_bounds(row, col, board) == expected for row, col, expected in test_cases)
+
+    def test_get_new_position(self):
+        test_cases = [
+            ('N', 2, 2, 1, 2),
+            ('S', 2, 2, 3, 2),
+            ('W', 2, 2, 2, 1),
+            ('E', 2, 2, 2, 3),
+            ('NW', 2, 2, 1, 1),
+            ('NE', 2, 2, 1, 3),
+            ('SW', 2, 2, 3, 1),
+            ('SE', 2, 2, 3, 3)
+        ]
+        assert all(get_new_position(direction, row, col) == (expected_row, expected_col)
+                   for direction, row, col, expected_row, expected_col in test_cases)
