@@ -1,7 +1,6 @@
 import time
 import random
 from agent import alpha_beta_prunning_depth
-from agent_no_cutoff import alpha_beta_pruning
 from utils import WHITE,BLACK,traduction_move,get_opponent,make_move
 
 SPACE = "  ---|---|---|---"
@@ -118,29 +117,6 @@ def get_computer_move(state):
 
 
 
-def get_computer_move_no_cutoff(state):
-    board = state[0]
-    player = state[1]
-    available_moves = []
-
-    for i in range(4):
-        for j in range(4):
-            if board[i][j] == player:
-                for direction in ['N', 'S', 'E', 'W', 'NW', 'NE', 'SW', 'SE']:
-                    move = f"{chr(ord('A') + j)}{i+1} {direction}"
-                    available_moves.append(move)
-
-    if not available_moves:
-        return None
-
-    _, best_move = alpha_beta_pruning(state, float(
-        '-inf'), float('inf'), True, available_moves)
-    return best_move
-
-
-# Define the function for playing the game
-
-
 def play_game():
     board = create_board()
     display_board(board)
@@ -180,49 +156,7 @@ def play_game():
     print('Game over! Winner: ', get_opponent(player))
 
 
-def play_game_no_cutoff():
-    board = create_board()
-    display_board(board)
-
-    human_player = None
-    while human_player not in [BLACK, WHITE]:
-        try:
-            human_player = input(
-                "Choose your color ('B' for Black, 'W' for White): ").upper()
-        except ValueError:
-            print('Invalid input. Please try again.')
-
-    if human_player == BLACK:
-        computer_player = WHITE
-    else:
-        computer_player = BLACK
-
-    player = computer_player  # set player to always be black
-    state = (board, player)
-
-    while not check_win(board, BLACK) and not check_win(board, WHITE):
-        mov_valido = False
-        if player == human_player:
-            while (mov_valido == False):
-                mov_valido, move = get_user_move(state)
-        else:
-            move = get_computer_move_no_cutoff(state)
-            print("Computer's move: ", move)
-
-        try:
-            board = make_move(board, move, player)
-
-            state = (board, get_opponent(player))
-            display_board(board)
-        except ValueError as e:
-            print(e)
-
-        player = get_opponent(player)
-
-    print('Game over! Winner: ', get_opponent(player))
 
 
 play_game()
-""" 
-play_game_no_cutoff()
-"""
+
