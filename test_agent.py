@@ -1,8 +1,20 @@
+import pytest
 from agent import is_winning_or_creates_special_case
 from agent import terminal_test, find_adjacencies
 from agent import second_evaluation_function
 
 class TestAgent:
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        self.empty_board = [
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', '']
+        ]
+        yield 
+        self.empty_board = None
 
     def test_all_conditions_false(self):
         temp_board = [
@@ -12,7 +24,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'W'
-        assert is_winning_or_creates_special_case(temp_board, player) == False
+        assert not is_winning_or_creates_special_case(temp_board, player)
     
     def test_forms_square_true(self):
         temp_board = [
@@ -22,7 +34,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert is_winning_or_creates_special_case(temp_board, player) == True
+        assert is_winning_or_creates_special_case(temp_board, player)
 
     def test_forms_corners_true(self):
         temp_board = [
@@ -32,7 +44,7 @@ class TestAgent:
             ['B', '', '', 'B']
         ]
         player = 'B'
-        assert is_winning_or_creates_special_case(temp_board, player) == True
+        assert is_winning_or_creates_special_case(temp_board, player)
 
     def test_terminal_test_true(self):
         temp_board = [
@@ -42,7 +54,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert is_winning_or_creates_special_case(temp_board, player) == True
+        assert is_winning_or_creates_special_case(temp_board, player)
 
     def test_terminal_test_first_row_win_B(self):
         temp_board = [
@@ -52,7 +64,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_second_row_win_B(self):
         temp_board = [
@@ -62,7 +74,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_third_row_win_W(self):
         temp_board = [
@@ -72,7 +84,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'W'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_fourth_row_win_W(self):
         temp_board = [
@@ -82,7 +94,7 @@ class TestAgent:
             ['W', 'W', 'W', 'W']
         ]
         player = 'W'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_first_column_win_B(self):
         temp_board = [
@@ -92,7 +104,7 @@ class TestAgent:
             ['B', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_second_column_win_W(self):
         temp_board = [
@@ -102,7 +114,7 @@ class TestAgent:
             ['', 'W', '', '']
         ]
         player = 'W'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_third_column_win_W(self):
         temp_board = [
@@ -112,7 +124,7 @@ class TestAgent:
             ['', '', 'W', '']
         ]
         player = 'W'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_fourth_column_win_B(self):
         temp_board = [
@@ -122,7 +134,7 @@ class TestAgent:
             ['', '', '', 'B']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == True
+        assert terminal_test(temp_board, player)
 
     def test_terminal_test_no_win(self):
         temp_board = [
@@ -132,7 +144,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
     def test_terminal_test_incomplete_row(self):
         temp_board = [
@@ -142,7 +154,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
     def test_terminal_test_incomplete_column(self):
         temp_board = [
@@ -152,7 +164,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
     def test_terminal_test_three_B(self):
         temp_board = [
@@ -162,17 +174,11 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
     def test_terminal_test_none_board(self):
-        temp_board = [
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', '']
-        ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(self.empty_board, player)
 
     def test_terminal_test_not_enough_W(self):
         temp_board = [
@@ -182,7 +188,7 @@ class TestAgent:
             ['', '', '', '']
         ]
         player = 'W'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
     def test_terminal_test_max_B_W(self):
         temp_board = [
@@ -192,9 +198,8 @@ class TestAgent:
             ['B', '', '', 'W']
         ]
         player = 'B'
-        assert terminal_test(temp_board, player) == False
+        assert not terminal_test(temp_board, player)
 
-    
     def test_find_adjacencies(self):
         board = [
         ["B", "B", "W", " "],
@@ -218,16 +223,6 @@ class TestAgent:
             [" ", "W", " ", "B"]
         ]
         
-        weights = [[3, 2, 2, 3], [2, 1, 1, 2], [2, 1, 1, 2], [3, 2, 2, 3]]
-        
-        player1_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "B")
-        player2_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "W")
-        
-        adj1, adj2 = 4, -4
-
-        expected_value = (player1_score - adj1) - (player2_score - adj2)
-
         result = second_evaluation_function((board, "B"))
 
-        assert result == -25, f"Result: {result}, Expected: {expected_value}"
-        
+        assert result == -25
