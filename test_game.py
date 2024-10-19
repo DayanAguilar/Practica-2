@@ -152,3 +152,14 @@ class TestGame:
 
         result = is_possible_move('N', 0, 0, setup_board, 'B')
         assert result is False
+
+    @patch('game.get_new_position')
+    @patch('game.is_out_of_bounds')
+    def test_path_3_own_piece(self, mock_out_bounds, mock_new_pos, setup_board):
+        # Target cell has player's own piece
+        mock_new_pos.return_value = (1, 1)
+        mock_out_bounds.return_value = False
+        setup_board[1][1] = 'B'  # own piece
+
+        result = is_possible_move('N', 0, 0, setup_board, 'B')
+        assert result is False
