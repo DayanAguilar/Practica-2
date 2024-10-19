@@ -175,11 +175,6 @@ class TestGame:
 
 
 
-
-
-
-
-
     @pytest.fixture
     def setup_game_state(self):
         board = [
@@ -199,3 +194,12 @@ class TestGame:
         valid, move = get_user_move(setup_game_state)
         assert valid is True
         assert move == "A1 SE"
+
+    @patch('builtins.input')
+    @patch('game.traduction_move')
+    def test_path_2_opponent_piece(self, mock_traduction, mock_input, setup_game_state):
+        mock_input.return_value = "D1 SW"
+        mock_traduction.return_value = (0, 3, "SW")
+        valid, move = get_user_move(setup_game_state)
+        assert valid is False
+        assert move == 0
