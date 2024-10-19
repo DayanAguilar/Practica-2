@@ -328,3 +328,8 @@ class TestGame:
             play_game()
             assert mock_functions['check_win'].called
 
+    def test_path_8_multiple_invalid_inputs_inmediately_win(self, mock_functions):
+        with patch('builtins.input', side_effect=['X', 'Y', 'W']):
+            mock_functions['check_win'].return_value = True
+            play_game()
+            assert mock_functions['check_win'].called
