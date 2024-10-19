@@ -5,7 +5,7 @@ from game import get_new_position
 from game import get_computer_move, create_board, get_available_moves
 from unittest.mock import patch
 from unittest.mock import Mock
-from game import traduction_move
+from game import play_game, BLACK, WHITE
 from io import StringIO
 import sys
 import pytest
@@ -273,14 +273,34 @@ class TestGame:
         result = get_available_moves(board, 'W')
         assert len(result) == 0
 
-    def test_path_6(self, empty_board):
-        board = empty_board
-        result = get_available_moves(board, 'W')
-        assert len(result) == 0
 
-    @pytest.fixture(autouse=True)
-    def mock_traduction_move(self, monkeypatch):
-        def mock_func(move):
-            return 0, 0, move.split()[-1]
 
-        monkeypatch.setattr("game.traduction_move", mock_func)
+    @pytest.fixture
+    def mock_board(self):
+        return [[None for _ in range(4)] for _ in range(4)]
+
+    @pytest.fixture
+    def mock_functions(self,monkeypatch):
+        mocks = {
+            'create_board': Mock(return_value=[[None for _ in range(4)] for _ in range(4)]),
+            'display_board': Mock(),
+            'check_win': Mock(),
+            'get_user_move': Mock(),
+            'get_computer_move': Mock(),
+            'make_move': Mock(),
+            'get_opponent': Mock()
+        }
+
+        for func_name, mock in mocks.items():
+            monkeypatch.setattr(f"game.{func_name}", mock)
+
+        return mocks
+
+    def test_path_1_valid_move_after_invalid_attempt_then_win(self,mock_functions):
+        with patch('builtins.input', side_effect=['W']):
+            mock_functions['get_user_move'].side_effect = [(False, 0), (True, 'A1 N')]
+            mock_functions['check_win'].side_effect = [False, False, True]
+
+            play_game()
+
+            assert mock_functions['get_user_move'].call_count == 2
