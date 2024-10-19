@@ -203,3 +203,12 @@ class TestGame:
         valid, move = get_user_move(setup_game_state)
         assert valid is False
         assert move == 0
+
+    @patch('builtins.input')
+    @patch('game.traduction_move')
+    def test_path_3_empty_cell(self, mock_traduction, mock_input, setup_game_state):
+        mock_input.return_value = "B1 S"
+        mock_traduction.return_value = (0, 1, "S")
+        valid, move = get_user_move(setup_game_state)
+        assert valid is False
+        assert move == 0
