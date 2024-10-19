@@ -304,3 +304,12 @@ class TestGame:
             play_game()
 
             assert mock_functions['get_user_move'].call_count == 2
+
+    def test_path_3_computer_makes_valid_move_wins(self,mock_functions):
+        with patch('builtins.input', side_effect=['B']):
+            mock_functions['get_computer_move'].return_value = 'A1 N'
+            mock_functions['check_win'].side_effect = [False, False, True]
+
+            play_game()
+
+            assert mock_functions['get_computer_move'].called
