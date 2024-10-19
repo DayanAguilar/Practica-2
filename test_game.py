@@ -1,4 +1,4 @@
-from game import create_board, is_possible_move
+from game import create_board, is_possible_move, get_user_move
 from game import display_board
 from game import is_out_of_bounds
 from game import get_new_position
@@ -148,7 +148,7 @@ class TestGame:
         # Target cell has opponent's piece
         mock_new_pos.return_value = (1, 1)
         mock_out_bounds.return_value = False
-        setup_board[1][1] = 'W'  # opponent piece
+        setup_board[1][1] = 'W'
 
         result = is_possible_move('N', 0, 0, setup_board, 'B')
         assert result is False
@@ -156,10 +156,9 @@ class TestGame:
     @patch('game.get_new_position')
     @patch('game.is_out_of_bounds')
     def test_path_3_own_piece(self, mock_out_bounds, mock_new_pos, setup_board):
-        # Target cell has player's own piece
         mock_new_pos.return_value = (1, 1)
         mock_out_bounds.return_value = False
-        setup_board[1][1] = 'B'  # own piece
+        setup_board[1][1] = 'B'
 
         result = is_possible_move('N', 0, 0, setup_board, 'B')
         assert result is False
@@ -167,9 +166,36 @@ class TestGame:
     @patch('game.get_new_position')
     @patch('game.is_out_of_bounds')
     def test_path_4_out_of_bounds(self, mock_out_bounds, mock_new_pos, setup_board):
-        # Move is out of bounds
         mock_new_pos.return_value = (4, 4)
         mock_out_bounds.return_value = True
 
         result = is_possible_move('N', 0, 0, setup_board, 'B')
         assert result is False
+
+
+
+
+
+
+
+
+
+    @pytest.fixture
+    def setup_game_state(self):
+        board = [
+            ['B', None, None, 'W'],
+            [None, 'B', 'W', None],
+            [None, 'W', 'B', None],
+            ['W', None, None, 'B']
+        ]
+        player = 'B'
+        return (board, player)
+
+    @patch('builtins.input')
+    @patch('game.traduction_move')
+    def test_path_1_valid_move(self, mock_traduction, mock_input, setup_game_state):
+        mock_input.return_value = "A1 SE"
+        mock_traduction.return_value = (0, 0, "SE")
+        valid, move = get_user_move(setup_game_state)
+        assert valid is True
+        assert move == "A1 SE"
