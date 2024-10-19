@@ -5,7 +5,7 @@ from game import get_new_position
 from game import get_computer_move, create_board, get_available_moves
 from unittest.mock import patch
 from unittest.mock import Mock
-from game import play_game, BLACK, WHITE
+from game import play_game
 from io import StringIO
 import sys
 import pytest
