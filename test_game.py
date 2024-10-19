@@ -63,3 +63,7 @@ class TestGame:
     def test_path_1_col_exceeds_length(self):
         board = [[None for _ in range(4)] for _ in range(4)]
         assert is_out_of_bounds(0, 4, board) == True
+
+    def test_path_2_valid_position(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        assert is_out_of_bounds(0, 0, board) == False
