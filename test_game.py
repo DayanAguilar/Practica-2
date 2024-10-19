@@ -322,8 +322,9 @@ class TestGame:
 
             assert mock_functions['get_user_move'].call_count == 0
 
-    def test_path_7(self, mock_functions):
+    def test_path_7_invalid_color_inmediately_win(self, mock_functions):
         with patch('builtins.input', side_effect=['X', 'W']):
             mock_functions['check_win'].return_value = True
             play_game()
             assert mock_functions['check_win'].called
+
