@@ -267,3 +267,8 @@ class TestGame:
     def test_path_4(self, empty_board):
         result = get_available_moves(empty_board, 'W')
         assert len(result) == 0
+
+    def test_path_5(self, empty_board):
+        board = empty_board
+        result = get_available_moves(board, 'W')
+        assert len(result) == 0
