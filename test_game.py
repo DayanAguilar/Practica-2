@@ -59,3 +59,7 @@ class TestGame:
                            '  ---|---|---|---\n'
                            '4  W |   | B | W\n')
         assert captured_output.getvalue() == expected_output
+
+    def test_path_1_col_exceeds_length(self):
+        board = [[None for _ in range(4)] for _ in range(4)]
+        assert is_out_of_bounds(0, 4, board) == True
