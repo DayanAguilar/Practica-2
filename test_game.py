@@ -245,3 +245,13 @@ class TestGame:
         assert len(result) > 0
         assert "A1 N" in result
         assert mock_is_possible_move.called
+
+    def test_path_2(self, empty_board, mock_is_possible_move):
+        board = empty_board
+        board[0][0] = 'W'
+        mock_is_possible_move.return_value = False
+
+        result = get_available_moves(board, 'W')
+
+        assert len(result) == 0
+        assert mock_is_possible_move.called
