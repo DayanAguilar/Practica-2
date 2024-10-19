@@ -333,3 +333,11 @@ class TestGame:
             mock_functions['check_win'].return_value = True
             play_game()
             assert mock_functions['check_win'].called
+
+    def test_path_5_computer_inmediately_wins(self,mock_functions):
+        with patch('builtins.input', side_effect=['W']):
+            mock_functions['check_win'].return_value = True
+            play_game()
+            assert mock_functions['create_board'].called
+            assert mock_functions['check_win'].called
+            assert not mock_functions['make_move'].called
