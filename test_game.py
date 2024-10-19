@@ -27,3 +27,15 @@ class TestGame:
 
         sys.stdout = sys.__stdout__
         assert captured_output.getvalue() == '   A   B   C   D\n'
+
+    def test_single_row_board(self):
+        # Test path 2 - board with one row (no SPACE needed)
+        board = [['B', 'W', None, 'B']]
+        captured_output = StringIO()
+        sys.stdout = captured_output
+
+        display_board(board)
+
+        sys.stdout = sys.__stdout__
+        expected_output = '   A   B   C   D\n1  B | W |   | B\n'
+        assert captured_output.getvalue() == expected_output
