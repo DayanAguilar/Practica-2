@@ -108,3 +108,14 @@ class TestGame:
         result = get_computer_move(setup_game_state)
         mock_alpha_beta.assert_called_once()
         assert result == "A1 NW"
+
+    def test_path_2_no_moves(self):
+        board = [
+            ['B', 'W', 'B', 'W'],
+            ['W', 'B', 'W', 'B'],
+            ['B', 'W', 'B', 'W'],
+            ['W', 'B', 'W', 'B']
+        ]
+        state = (board, 'B')
+        result = get_computer_move(state)
+        assert result is None
