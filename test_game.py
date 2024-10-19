@@ -1,4 +1,4 @@
-from game import create_board
+from game import create_board, is_possible_move
 from game import display_board
 from game import is_out_of_bounds
 from game import get_new_position
@@ -119,3 +119,25 @@ class TestGame:
         state = (board, 'B')
         result = get_computer_move(state)
         assert result is None
+
+
+
+
+
+    @pytest.fixture
+    def setup_board(self):
+        return [
+            [None, None, None, None],
+            [None, None, None, None],
+            [None, None, None, None],
+            [None, None, None, None]
+        ]
+
+    @patch('game.get_new_position')
+    @patch('game.is_out_of_bounds')
+    def test_path_1_valid_empty_cell(self, mock_out_bounds, mock_new_pos, setup_board):
+        mock_new_pos.return_value = (1, 1)
+        mock_out_bounds.return_value = False
+
+        result = is_possible_move('N', 0, 0, setup_board, 'B')
+        assert result is True
