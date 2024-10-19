@@ -272,3 +272,15 @@ class TestGame:
         board = empty_board
         result = get_available_moves(board, 'W')
         assert len(result) == 0
+
+    def test_path_6(self, empty_board):
+        board = empty_board
+        result = get_available_moves(board, 'W')
+        assert len(result) == 0
+
+    @pytest.fixture(autouse=True)
+    def mock_traduction_move(self, monkeypatch):
+        def mock_func(move):
+            return 0, 0, move.split()[-1]
+
+        monkeypatch.setattr("game.traduction_move", mock_func)
