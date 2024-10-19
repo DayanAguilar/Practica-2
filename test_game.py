@@ -315,13 +315,15 @@ class TestGame:
             assert mock_functions['get_computer_move'].called
 
     def test_path_4_inmediate_win(self, mock_functions):
-        """
-        Test immediate win condition after game start
-        Path: 1,2,3,4,2,7,8,9,20
-        """
         with patch('builtins.input', side_effect=['W']):
             mock_functions['check_win'].return_value = True
 
             play_game()
 
             assert mock_functions['get_user_move'].call_count == 0
+
+    def test_path_7(self, mock_functions):
+        with patch('builtins.input', side_effect=['X', 'W']):
+            mock_functions['check_win'].return_value = True
+            play_game()
+            assert mock_functions['check_win'].called
