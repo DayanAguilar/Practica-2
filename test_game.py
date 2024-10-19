@@ -79,3 +79,13 @@ class TestGame:
     def test_path_5_row_negative(self):
         board = [[None for _ in range(4)] for _ in range(4)]
         assert is_out_of_bounds(-1, 0, board) == True
+
+    def test_get_new_position(self):
+        assert get_new_position('N', 2, 2) == (1, 2)
+        assert get_new_position('S', 2, 2) == (3, 2)
+        assert get_new_position('W', 2, 2) == (2, 1)
+        assert get_new_position('E', 2, 2) == (2, 3)
+        assert get_new_position('NW', 2, 2) == (1, 1)
+        assert get_new_position('NE', 2, 2) == (1, 3)
+        assert get_new_position('SW', 2, 2) == (3, 1)
+        assert get_new_position('SE', 2, 2) == (3, 3)
