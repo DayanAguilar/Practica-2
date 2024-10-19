@@ -1,6 +1,7 @@
 from agent import is_winning_or_creates_special_case
 from agent import terminal_test, find_adjacencies
 from agent import second_evaluation_function
+from agent import get_all_moves
 
 class TestAgent:
 
@@ -315,7 +316,7 @@ class TestAgent:
         
         assert result == (expected_b_adj, expected_w_adj)
 
-    def test_second_evaluation_function(self):
+    def test_second_evaluation_function_1(self):
         board = [
             ["B", "W", "W", " "],
             [" ", "W", "B", " "],
@@ -323,16 +324,143 @@ class TestAgent:
             [" ", "W", " ", "B"]
         ]
         
-        weights = [[3, 2, 2, 3], [2, 1, 1, 2], [2, 1, 1, 2], [3, 2, 2, 3]]
-        
-        player1_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "B")
-        player2_score = sum(weights[i][j] for i in range(4) for j in range(4) if board[i][j] == "W")
-        
-        adj1, adj2 = 4, -4
-
-        expected_value = (player1_score - adj1) - (player2_score - adj2)
-
         result = second_evaluation_function((board, "B"))
-
-        assert result == -25
         
+        assert result == -25
+
+    def test_second_evaluation_function_2(self):
+        board = [
+            ["B", " ", " ", "W"],
+            [" ", "B", "W", " "],
+            [" ", "W", "B", " "],
+            ["W", " ", " ", "B"]
+        ]
+        
+        result = second_evaluation_function((board, "B"))
+        
+        assert isinstance(result, int)
+
+    def test_second_evaluation_function_3(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", " ", " "],
+            ["B", " ", "W", " "],
+            ["W", " ", " ", " "]
+        ]
+        
+        result = second_evaluation_function((board, "B"))
+        
+        assert isinstance(result, int)
+
+    def test_get_all_moves_empty_board(self):
+        board = [
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "]
+        ]
+
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        expected_moves = [(0, 0), (0, 1), (0, 2), (0, 3),
+                          (1, 0), (1, 1), (1, 2), (1, 3),
+                          (2, 0), (2, 1), (2, 2), (2, 3),
+                          (3, 0), (3, 1), (3, 2), (3, 3)]
+
+        assert set(moves_B) == set(expected_moves)
+        assert set(moves_W) == set(expected_moves)
+
+    def test_get_all_moves_empty_board(self):
+        board = [
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "]
+        ]
+        player = "B"
+        
+        moves = get_all_moves(board, player)
+        
+        assert len(moves) == 16
+        assert set(moves) == {(i, j) for i in range(4) for j in range(4)}
+
+    def test_get_all_moves_full_board(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"],
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"]
+        ]
+
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        assert moves_B == []
+        assert moves_W == []
+
+    def test_get_all_moves_partial_board(self):
+        board = [
+            ["B", "W", " ", " "],
+            [" ", "B", "W", " "],
+            [" ", "W", "B", " "],
+            [" ", " ", " ", " "]
+        ]
+
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        expected_moves_B = [(0, 2), (0, 3), (1, 0), (1, 3), (2, 0), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
+        expected_moves_W = [(0, 2), (0, 3), (1, 0), (1, 3), (2, 0), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
+
+        assert set(moves_B) == set(expected_moves_B)
+        assert set(moves_W) == set(expected_moves_W)
+
+    def test_get_all_moves_one_player_pieces(self):
+        board = [
+            ["B", "B", " ", " "],
+            [" ", "B", " ", " "],
+            [" ", " ", "B", " "],
+            [" ", " ", " ", " "]
+        ]
+    
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        expected_moves_B = [(0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
+        expected_moves_W = [(0, 2), (0, 3), (1, 0), (1, 2), (1, 3), (2, 0), (2, 1), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
+
+        assert set(moves_B) == set(expected_moves_B)
+        assert set(moves_W) == set(expected_moves_W)
+
+    def test_get_all_moves_one_empty_cell(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"],
+            ["B", "W", "B", " "],
+            ["W", "B", "W", "B"]
+        ]
+
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        assert moves_B == [(2, 3)]
+        assert moves_W == [(2, 3)]
+
+    def test_get_all_moves_edge_pieces(self):
+        board = [
+            ["B", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", "W"]
+        ]
+
+        moves_B = get_all_moves(board, "B")
+        moves_W = get_all_moves(board, "W")
+
+        expected_moves_B = [(0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2)]
+        expected_moves_W = [(0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (2, 3), (3, 0), (3, 1), (3, 2)]
+
+        assert set(moves_B) == set(expected_moves_B)
+        assert set(moves_W) == set(expected_moves_W)
+
