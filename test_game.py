@@ -4,6 +4,8 @@ from game import is_out_of_bounds
 from game import get_new_position
 from game import get_computer_move, create_board, get_available_moves
 from unittest.mock import patch
+from unittest.mock import Mock
+from game import traduction_move
 from io import StringIO
 import sys
 import pytest
@@ -222,3 +224,24 @@ class TestGame:
         assert valid is False
         assert move == 0
         assert mock_input.call_count == 2
+
+    @pytest.fixture
+    def empty_board(self):
+        return [[None for _ in range(4)] for _ in range(4)]
+
+    @pytest.fixture
+    def mock_is_possible_move(self,monkeypatch):
+        mock = Mock()
+        monkeypatch.setattr("game.is_possible_move", mock)
+        return mock
+
+    def test_path_1(self,empty_board, mock_is_possible_move):
+        board = empty_board
+        board[0][0] = 'W'
+        mock_is_possible_move.return_value = True
+
+        result = get_available_moves(board, 'W')
+
+        assert len(result) > 0
+        assert "A1 N" in result
+        assert mock_is_possible_move.called
