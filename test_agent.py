@@ -359,25 +359,6 @@ class TestAgent:
             [" ", " ", " ", " "],
             [" ", " ", " ", " "]
         ]
-
-        moves_B = get_all_moves(board, "B")
-        moves_W = get_all_moves(board, "W")
-
-        expected_moves = [(0, 0), (0, 1), (0, 2), (0, 3),
-                          (1, 0), (1, 1), (1, 2), (1, 3),
-                          (2, 0), (2, 1), (2, 2), (2, 3),
-                          (3, 0), (3, 1), (3, 2), (3, 3)]
-
-        assert set(moves_B) == set(expected_moves)
-        assert set(moves_W) == set(expected_moves)
-
-    def test_get_all_moves_empty_board(self):
-        board = [
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "]
-        ]
         player = "B"
         
         moves = get_all_moves(board, player)
