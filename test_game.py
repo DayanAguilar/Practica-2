@@ -212,3 +212,13 @@ class TestGame:
         valid, move = get_user_move(setup_game_state)
         assert valid is False
         assert move == 0
+
+    @patch('builtins.input')
+    @patch('game.traduction_move')
+    def test_path_4_invalid_then_valid(self, mock_traduction, mock_input, setup_game_state):
+        mock_input.side_effect = ["invalid", "B1 S"]
+        mock_traduction.side_effect = [ValueError, (0, 1, "S")]
+        valid, move = get_user_move(setup_game_state)
+        assert valid is False
+        assert move == 0
+        assert mock_input.call_count == 2
