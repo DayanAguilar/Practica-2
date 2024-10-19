@@ -163,3 +163,13 @@ class TestGame:
 
         result = is_possible_move('N', 0, 0, setup_board, 'B')
         assert result is False
+
+    @patch('game.get_new_position')
+    @patch('game.is_out_of_bounds')
+    def test_path_4_out_of_bounds(self, mock_out_bounds, mock_new_pos, setup_board):
+        # Move is out of bounds
+        mock_new_pos.return_value = (4, 4)
+        mock_out_bounds.return_value = True
+
+        result = is_possible_move('N', 0, 0, setup_board, 'B')
+        assert result is False
