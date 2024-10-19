@@ -3,9 +3,10 @@ from game import display_board
 from game import is_out_of_bounds
 from game import get_new_position
 from game import get_computer_move, create_board, get_available_moves
-from unittest import mock
+from unittest.mock import patch
 from io import StringIO
 import sys
+import pytest
 class TestGame:
     def test_create_board(self):
         board = create_board()
@@ -89,3 +90,21 @@ class TestGame:
         assert get_new_position('NE', 2, 2) == (1, 3)
         assert get_new_position('SW', 2, 2) == (3, 1)
         assert get_new_position('SE', 2, 2) == (3, 3)
+
+    @pytest.fixture
+    def setup_game_state(self):
+        board = [
+            ['B', None, None, 'W'],
+            [None, 'B', 'W', None],
+            [None, 'W', 'B', None],
+            ['W', None, None, 'B']
+        ]
+        player = 'B'
+        return (board, player)
+
+    @patch('game.alpha_beta_prunning_depth')
+    def test_path_1_valid_moves(self, mock_alpha_beta, setup_game_state):
+        mock_alpha_beta.return_value = (10, "A1 NW", 5)
+        result = get_computer_move(setup_game_state)
+        mock_alpha_beta.assert_called_once()
+        assert result == "A1 NW"
