@@ -317,28 +317,26 @@ class TestAgent:
         
         assert result == (expected_b_adj, expected_w_adj)
 
-    def test_second_evaluation_function_1(self):
+    def test_second_evaluation_function_5(self):
         board = [
-            ["B", "W", "W", " "],
+            ["W", "B", " ", " "],
             [" ", "W", "B", " "],
-            ["B", " ", " "," "],
-            [" ", "W", " ", "B"]
-        ]
-        
-        result = second_evaluation_function((board, "B"))
-        
-        assert result == -25
-
-    def test_second_evaluation_function_2(self):
-        board = [
-            ["B", " ", " ", "W"],
-            [" ", "B", "W", " "],
-            [" ", "W", "B", " "],
+            ["B", " ", "W", " "],
             ["W", " ", " ", "B"]
         ]
         
         result = second_evaluation_function((board, "B"))
+        assert isinstance(result, int)
+
+    def test_second_evaluation_function_4(self):
+        board = [
+            ["B", " ", "W", " "],
+            ["W", "B", " ", " "],
+            [" ", "W", "B", " "],
+            ["W", " ", " ", " "]
+        ]
         
+        result = second_evaluation_function((board, "B"))
         assert isinstance(result, int)
 
     def test_second_evaluation_function_3(self):
@@ -350,8 +348,29 @@ class TestAgent:
         ]
         
         result = second_evaluation_function((board, "B"))
-        
         assert isinstance(result, int)
+
+    def test_second_evaluation_function_2(self):
+        board = [
+            ["B", " ", " ", "W"],
+            [" ", "B", "W", " "],
+            [" ", "W", "B", " "],
+            ["W", " ", " ", "B"]
+        ]
+        
+        result = second_evaluation_function((board, "B"))
+        assert isinstance(result, int)
+    
+    def test_second_evaluation_function_1(self):
+        board = [
+            ["B", "W", "W", " "],
+            [" ", "W", "B", " "],
+            ["B", " ", " ", " "],
+            [" ", "W", " ", "B"]
+        ]
+        
+        result = second_evaluation_function((board, "B"))
+        assert result == -25
 
     def test_get_all_moves_empty_board(self):
         board = [
