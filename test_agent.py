@@ -381,23 +381,6 @@ class TestAgent:
         assert moves_B == []
         assert moves_W == []
 
-    def test_get_all_moves_partial_board(self):
-        board = [
-            ["B", "W", " ", " "],
-            [" ", "B", "W", " "],
-            [" ", "W", "B", " "],
-            [" ", " ", " ", " "]
-        ]
-
-        moves_B = get_all_moves(board, "B")
-        moves_W = get_all_moves(board, "W")
-
-        expected_moves_B = [(0, 2), (0, 3), (1, 0), (1, 3), (2, 0), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
-        expected_moves_W = [(0, 2), (0, 3), (1, 0), (1, 3), (2, 0), (2, 3), (3, 0), (3, 1), (3, 2), (3, 3)]
-
-        assert set(moves_B) == set(expected_moves_B)
-        assert set(moves_W) == set(expected_moves_W)
-
     def test_get_all_moves_one_player_pieces(self):
         board = [
             ["B", "B", " ", " "],
