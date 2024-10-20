@@ -2,6 +2,8 @@ from agent import is_winning_or_creates_special_case
 from agent import terminal_test, find_adjacencies
 from agent import second_evaluation_function
 from agent import get_all_moves
+from agent import alpha_beta_prunning_depth
+from copy import deepcopy
 
 class TestAgent:
 
@@ -445,3 +447,94 @@ class TestAgent:
         assert set(moves_B) == set(expected_moves_B)
         assert set(moves_W) == set(expected_moves_W)
 
+    def test_alpha_beta_prunning_depth_no_moves_left(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"],
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"]
+        ]
+        state = (board, "B")
+        available_moves = []
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert value == float('-inf')
+
+    def test_alpha_beta_prunning_depth_one_move_left(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"],
+            ["B", "W", "B", " "],
+            ["W", "B", "W", "B"]
+        ]
+        state = (board, "B")
+        available_moves = ["D4 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move == "D4 SE"
+
+    def test_alpha_beta_prunning_depth_multiple_moves(self):
+        board = [
+            ["B", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", "W"]
+        ]
+        state = (board, "B")
+        available_moves = ["A2 SE", "A3 SE", "A4 SE", "B1 SE", "B2 SE", "B3 SE", "B4 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move in available_moves
+
+    def test_alpha_beta_prunning_depth_block_opponent(self):
+        board = [
+            ["B", "W", "B", " "],
+            ["W", "B", "W", " "],
+            ["B", " ", "B", "W"],
+            ["W", " ", "W", "B"]
+        ]
+        state = (board, "B")
+        available_moves = ["A4 SE", "B4 SE", "C2 SE", "D2 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move in available_moves
+
+    def test_alpha_beta_prunning_depth_early_cutoff(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", " "],
+            ["B", " ", "B", "W"],
+            ["W", "B", "W", "B"]
+        ]
+        state = (board, "B")
+        available_moves = ["B4 SE", "C2 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 2, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move in available_moves
+
+    def test_alpha_beta_prunning_depth_force_win(self):
+        board = [
+            ["B", " ", " ", "W"],
+            ["W", "B", "W", " "],
+            ["B", " ", "B", "W"],
+            ["W", "B", "W", " "]
+        ]
+        state = (board, "B")
+        available_moves = ["A2 SE", "B4 SE", "C2 SE", "D4 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move == "D4 SE"
+
+
+    def test_alpha_beta_prunning_depth_draw(self):
+        board = [
+            ["B", "W", "B", "W"],
+            ["W", "B", "W", "B"],
+            ["B", "W", "B", " "],
+            ["W", "B", "W", "B"]
+        ]
+        state = (board, "B")
+        available_moves = ["C4 SE"]
+
+        value, best_move, counter = alpha_beta_prunning_depth(state, 3, float('-inf'), float('inf'), True, available_moves, 0)
+        assert best_move == "C4 SE"
