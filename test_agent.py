@@ -3,7 +3,6 @@ from agent import terminal_test, find_adjacencies
 from agent import second_evaluation_function
 from agent import get_all_moves
 from agent import alpha_beta_prunning_depth
-from copy import deepcopy
 
 class TestAgent:
 
