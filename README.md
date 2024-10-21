@@ -10,6 +10,7 @@
    ```bash
    pip install pytest
    pip install coverage
+   pip install pytest-mock
    ```
 
 3. **Ejecutar pruebas con pytest**:
@@ -36,5 +37,6 @@
    ```bash
    python3 -m http.server
    ```
+
 
 De ahi podremos ver el reporte de covertura en formato html
